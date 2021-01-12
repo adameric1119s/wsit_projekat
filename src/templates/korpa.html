@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://kit.fontawesome.com/60d5fcee26.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<title>Teretana A&M</title>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="../static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="../static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="adminpanel" class="nav-link" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="../index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="../info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="../shop" class="nav-link active">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="../clanarine" class="nav-link">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="../prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="../profil/{{session['username']}}" class="nav-link">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="../odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row korpa">
+    <div class="col-12">
+      <table style="display: inline-block;">
+        <thead>
+          <th id="dth"></th>
+          <th></th>
+          <th>Naziv</th>
+          <th>Cena</th>
+        </thead>
+      {% for i in korpa %}
+        <tr>
+          <td><form action="/brisanjekorpa/{{i[0]}}">
+            <button type="submit">
+              <span style="color: red;"><i class="fas fa-times"></i></span>
+            </button>
+          </form></td>
+          <td class=""><img class="img-fluid" src="../{{i[4]}}" width="130px" alt=""></td>
+          <td>{{i[1]}}</td>
+          <td>{{i[2]}} RSD</td>
+        </tr>
+      {% endfor %}
+      </table>
+      <table id="tblbroj">
+        <thead>
+          <th>Broj</th>
+        </thead>
+      {% for a in broj %}
+      <tr>
+        <td>{{a[0]}}</td>
+      </tr>
+      {% endfor %}
+      </table>
+    </div>
+    <div class="col-12" style="margin-top: 25px;">
+      <h5>Ukupno: {{ukupno}} RSD</h5>
+      <form action="/kupovina/{{session['username']}}">
+        <input type="submit" value="Potvrda" class="form-control btn btn-lg btn-primary btn-block mb-3 mt-3" style="width: 35%;">
+      </form>
+    </div>
+  </div>
+  <footer class="row">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="../static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="../static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="../static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+<script src="{{url_for('static',filename='../js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='../js/bootstrap.min.js')}}"></script>
+</body>
+</html>

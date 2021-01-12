@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/jquery.validate.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<title>Teretana A&M</title>
+<script> 
+  $(document).ready(function(){
+    $(function() {
+    $("form[name='dodajproizvod']").validate({
+    rules: 
+    {
+      naziv: "required",
+      cena:{
+        required: true,
+        number: true
+      },
+      opis: "required",
+      slika: "required",
+    },
+    messages: {
+      naziv: "Molimo unesite ime proizvoda",
+      opis: "Molimo unesite opis proizvoda",
+      cena: {
+        required: "Molimo unesite cenu proizvoda",
+        number: "Potrebno je uneti broj"
+      },
+    },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
+});
+</script> 
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="adminpanel" class="nav-link active" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="shop" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="clanarine" class="nav-link">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="profil/{{session['username']}}" class="nav-link">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row mb-3 mt-3">
+    <div class="col-12 col-lg-3 mb-3">
+      <a style="color: orange; font-weight: bold;" href="adminpanel">Korisnici/Clanarine</a><br>
+      <a style="color: orange; font-weight: bold;" href="porudzbenice">Porudzbenice</a><br>
+      <hr>
+      <a style="color: blue; font-weight: bold; text-decoration: underline;" href="dodajproizvod">Dodavanje proizvoda</a><br>
+      <a style="color: orange; font-weight: bold;" href="dodajadmina">Dodavanje admina</a>
+    </div>
+    <div class="col-12 col-lg-9 mt-3" style="width: 420px;">
+      <h5>Dodavanje proizvoda</h5>
+      <form action="/dodajproizvod" name="dodajproizvod" method="POST" enctype="multipart/form-data" style="margin-left:10px; margin-top: 15px;">
+          <label style="width: 140px;" for="naziv">Naziv proizvoda:</label>
+          <input type="text" name="naziv" id="naziv" class="form-control" style="width: 250px; display: inline-block;"><br><br>
+          <label style="width: 140px;" for="naziv">Cena:</label>
+          <input type="text" name="cena" id="cena" class="form-control" style="width: 250px; display: inline-block;"> RSD<br><br>
+          <label style="width: 140px;" for="opis">Opis proizvoda:</label>
+          <textarea name="opis" id="opis" cols="30" rows="5" class="form-control" style="width: 250px; resize: none; display: inline-block;"></textarea><br><br><br><br><br><br>
+          <label style="width: 140px;" style="width: 150px;" for="slika">Slika proizvoda:</label>
+          <input type="file" name="slika" id="slika" style="width: 250px; display: inline-block;">
+          {% for message in get_flashed_messages() %}
+              <p style="color: red;">{{message}}</p>
+          {% endfor %}
+          <button class="btn btn-lg btn-primary btn-block mt-3 mb-3" type="submit" style="width: 150px;">Potvrda</button>
+      </form>
+    </div>
+  </div>
+  <footer class="row">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+</body>
+</html>

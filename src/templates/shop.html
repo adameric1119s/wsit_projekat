@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://kit.fontawesome.com/60d5fcee26.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<title>Teretana A&M</title>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="adminpanel" class="nav-link" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="shop" class="nav-link active">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="clanarine" class="nav-link">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="profil/{{session['username']}}" class="nav-link">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row mt-3 mb-3">
+    <div class="col-6 mt-2">
+    {% for message in get_flashed_messages()%}
+      <span style="color: red;margin-left: 30px;">{{message}}</span>
+    {% endfor %}
+    </div>
+    <div class="col-6 korpabtn">
+      <a href="/korpa/{{session['username']}}">
+        <button class="btn">Korpa
+          <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-basket-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M5.071 1.243a.5.5 0 0 1 .858.514L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 6h1.717L5.07 1.243zM3.5 10.5a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3zm2.5 0a.5.5 0 1 0-1 0v3a.5.5 0 0 0 1 0v-3z"/>
+          </svg>
+        </button>
+      </a>
+    </div>
+  </div>
+  <div class="row shop">
+    {% for i in proizvodi %}
+    <div class="col-lg-4 col-md-6 mb-4">
+      <div class="card h-100">
+        <a href="#"><img class="card-img-top" src="{{i[4]}}" alt="{{i[1]}}"></a>
+        <div class="card-body">
+          <h4 class="card-title">
+            <p>{{i[1]}}</p>
+          </h4>
+          <h5>{{i[2]}} RSD </h5>
+          <p class="card-text">{{i[3]}}</p>
+          <div style="margin-top: 50px;">
+            <form action="/dodavanjeukorpu/{{i[0]}}">
+              <button class="btn">U Korpu</button>
+            </form>
+            {% if session['tip'] == 'admin'%}
+              <a href="/brisanje/{{i[0]}}" class="kanta"><i class="fas fa-trash-alt fa-lg" style="color: red;"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <footer class="row">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+<script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+</body>
+</html>

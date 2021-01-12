@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<script src="https://kit.fontawesome.com/60d5fcee26.js" crossorigin="anonymous"></script>
+<script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<title>Teretana A&M</title>
+<script>
+  $(document).ready(function(){
+    $("#clanarine").on("keyup", function() {
+    var a = $(this).val().toLowerCase();
+    $("#tblclanarine tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(a) > -1)
+    });
+    });
+    $("#korisnici").on("keyup", function() {
+    var a = $(this).val().toLowerCase();
+    $("#tblkorisnici tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(a) > -1)
+    });
+    });
+  });
+</script>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="adminpanel" class="nav-link active" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="shop" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="clanarine" class="nav-link">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="profil/{{session['username']}}" class="nav-link">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row mt-3 mb-3 adminpanel">
+    <div class="col-12 col-lg-3 mb-3">
+      <a style="color: blue; font-weight: bold; text-decoration: underline;" href="adminpanel">Korisnici/Clanarine</a><br>
+      <a style="color: orange; font-weight: bold;" href="porudzbenice">Porudzbenice</a><br>
+      <hr>
+      <a style="color: orange; font-weight: bold;" href="dodajproizvod">Dodavanje proizvoda</a><br>
+      <a style="color: orange; font-weight: bold;" href="dodajadmina">Dodavanje admina</a>
+    </div>
+    <div class="col-12 col-lg-9"  style="padding: 0 3px;">
+      <h5 style="display: inline-block;">Članarine</h5>
+      <div class="pretraga">
+        <label for="clanarine">Pretraga: </label>
+        <input type="text"  name="clanarine" id="clanarine">
+      </div>
+      <table border=1>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Vrsta treninga</th>
+            <th>Lokacija</th>
+            <th>Broj Termina</th>
+            <th>Datum</th>
+          </tr>
+        </thead>
+        <tbody id="tblclanarine">
+          {% for i in clanarine %}
+          <tr>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+            <td style="white-space: nowrap;">{{i[5]}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table><br><br>
+      <h5 style="display: inline-block;">Korisnici</h5>
+      <div class="pretraga">
+        <label for="korisnici">Pretraga: </label>
+        <input type="text" name="korisnici" id="korisnici">
+      </div>
+      <table border=1>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Ime</th>
+            <th>Prezime</th>
+            <th>Adresa</th>
+            <th>E-Mail</th>
+            <th>Tip</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tblkorisnici">
+          {% for i in korisnici %}
+          <tr>
+            <td>{{i[1]}}</td>
+            <td>{{i[2]}}</td>
+            <td>{{i[3]}}</td>
+            <td>{{i[4]}}</td>
+            <td>{{i[5]}}</td>
+            <td>{{i[7]}}</td>
+            <td><a href="/obrisikorisnika/{{i[1]}}"><i class="fas fa-trash-alt fa-lg" style="color: red;"></i></a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer class="row mt-3 mb-3">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+</body>
+</html>

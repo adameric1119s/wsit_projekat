@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<title>Teretana A&M</title>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="adminpanel" class="nav-link" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="shop" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="clanarine" class="nav-link active">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="profil/{{session['username']}}" class="nav-link">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row clanarine">
+    <div class="col-lg-7 col-12 mt-4 mb-4">
+      <div class="col-12 mb-4">
+        <h3>Grupni treninzi</h3>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <img class="img-fluid" src="static/slike/grupnitrening.jpg" alt="grupnitrening" style="border-radius: 5px;">
+          </div>
+          <div class="col-12 col-sm-6" style="font-size: 11pt;">
+            Ukoliko želite da izbegnete povrede i maksimalno iskoristite potencijal svoga tela za dostizanje cilja lični trener je najbolje rešenje. Bez obzira na to da li želite da izgubite na težini ili da steknete mišićnu masu, profesionalni lični trener može da proceni vašu kondiciju i izgradi realističan plan za dostizanje željenih ciljeva.
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="col-12">
+        <h3>Personalni trener</h3>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <img class="img-fluid" src="static/slike/licnitrener.jpg" alt="licnitrener" style="border-radius: 5px;">
+          </div>
+          <div class="col-12 col-sm-6" style="font-size: 11pt;">
+            Non Stop Fitnes organizuje više od 30 različitih grupnih treninga u preko 120 termina nedeljno na svim lokacijama. Svi grupni treninzi su uključeni u redovnu članarinu, nikakva doplata nije potrebna.
+            Treniraj sve od Joge do Power Box-a, od Pilatesa do Dance Fitness-a. Sve treninge vode stručni treneri Non Stop Fitness-a sa višegodišnjim iskustvom u oblasti fitnesa.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-5 col-12 mt-4 mb-4">
+      <h4>Učlanite se</h4>
+      <form action="/clanarine" method="POST" style="margin-left:10px">
+        <h5>Vrsta treninga</h5>
+        <input type="radio" name="vrsta" id="samostalni" value="Samostalni trening" checked>
+        <label for="samostalni">Samostalni trening</label><br>
+        <input type="radio" name="vrsta" id="grupni" value="Grupni trening">
+        <label for="grupni">Grupni trening</label><br>
+        <input type="radio" name="vrsta" id="licnitrener" value="Licni trener">
+        <label for="licnitrener">Trening sa personalnim trenerom</label><br>
+        <h5>Lokacija</h5>
+        <select name="lokacija" id="lokacija" >
+          <option value="Drugovacka 29, Zvezdara" selected>A&M - Drugovacka 29, Zvezdara</option>
+          <option value="Kamenorezacka 5, Zvezdara">A&M - Kamenorezacka 5, Zvezdara</option>
+        </select>
+        <h5>Broj termina</h5>
+        <select name="brtermina" id="bretermina">
+          <option value="7" selected>7 Termina</option>
+          <option value="15">15 Termina</option>
+          <option value="30">30 Termina</option>
+        </select>
+        <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Potvrda</button>
+      </form>
+      {% for message in get_flashed_messages() %}
+        <p style="color: red; margin-top: 20px;">{{message}}</p>
+      {% endfor %}
+    </div>
+  </div>
+  <footer class="row">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+<script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+</body>
+</html>

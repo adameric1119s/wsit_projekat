@@ -1,0 +1,340 @@
+*
+{   
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+@zuta:#ffc107;
+@tamnozuta:#e0a800;
+@siva: rgb(65, 65, 65);
+
+form
+{
+    .error
+    {
+        color: red;
+    }
+}
+.btnzuto
+{
+    color: #212529;
+    background-color: @zuta;
+    border-color: #ffc107;
+    margin-left: 5%;
+    border:@siva 2px solid;
+}
+.btnzutohover
+{
+    color: #212529;
+    background-color: @tamnozuta;
+    border-color: #d39e00;
+}
+
+body
+{
+    background-image: url("../slike/beanstalk-dark.png");
+    .container
+    {
+        background-color: white;
+        nav
+        {
+            margin:0 -15px;
+            background-color: black;
+            img#logo
+            {
+                width: 110px;
+                border: none;
+            }
+            img#hamburger
+            {
+                width: 64px;
+                border: white solid thin;
+                border-radius: 3px;
+                padding: 8px;
+                @media only screen and (max-width:420px)
+                {
+                    width: 32px;
+                }
+            }
+            #navbarmenu
+            {
+                ul
+                {
+                    background-color: @siva;
+                    border: solid thin gray;
+                    border-bottom:none;
+                    li
+                    {
+                        border-right: solid thin gray;
+                        border-bottom: solid thin gray;
+                        a
+                        {
+                            height: 41px;
+                            color: white;
+                            text-align: center;
+                        }
+                        a:hover
+                        {
+                            background-color:rgb(100, 100, 100);
+                        }
+                        .active
+                        {
+                            border:none;
+                            border-bottom: solid 5px @zuta;
+                            color: @zuta;
+                        }
+                    }
+                    li:last-child
+                    {
+                        border-right:none;
+                    }
+                }
+            }
+        }
+        .info
+        {
+            button
+            {
+                .btnzuto
+            }
+            button:hover
+            {
+                .btnzutohover
+            }
+        }
+        .programi
+        {
+            .card
+            {
+                h4
+                {
+                    @media only screen and (max-width:992px)
+                    {
+                        font-size: 15pt;
+                    }
+                }
+                ul
+                {
+                    li
+                    {
+                        margin: 3px 0;
+                    }
+                }
+            }
+        }
+        .forma
+        {
+            button
+            {
+                background-color: @zuta;
+                border:@siva 2px solid;
+            }
+            button:hover
+            {
+                background-color: @tamnozuta;
+                border-color: #d39e00;
+            }
+        }
+        .korpabtn
+        {
+            button
+            {
+                .btnzuto;
+                float: right;
+                font-weight: bold;
+            }
+            button:hover
+            {
+                .btnzutohover;
+            }
+        }
+        .shop
+        {
+            .card
+            {
+                .btn
+                {
+                    .btnzuto;
+                    position: absolute;
+                    bottom: 15px;
+                }
+                .btn:hover
+                {
+                    .btnzutohover
+                }
+                .kanta
+                {
+                    position: absolute;
+                    bottom: 20px;
+                    right: 20px;
+                    border: solid thin;
+                    padding: 2px;
+                    border-radius: 2px;
+                }
+                .img{
+                    float:left;
+                    object-fit: cover;
+                }
+            }
+        }
+        .korpa
+        {
+            img
+            {
+                @media only screen and (max-width:768px)
+                {
+                    width: 90px;
+                }
+                @media only screen and (max-width:480px)
+                {
+                    width: 65px;
+                }
+                @media only screen and (max-width:420px)
+                {
+                    display: none;
+                }
+            }
+            table
+            {
+                margin-left: -10px;
+                display: inline-block;
+                
+            }
+            #tblbroj
+            {
+                vertical-align: top;
+                margin: 0 -5px;
+                overflow: hidden;
+            }
+            th
+            {
+                text-align: center;
+                padding: 25px 0 15px;
+                @media only screen and (max-width:768px)
+                {
+                    font-size: 10pt;
+                }
+            }
+            #dth
+            {
+                @media only screen and (max-width:320px)
+                {
+                    display: none;
+                }
+            }
+            td
+            {
+                border-top: thin gray solid;
+                height: 120px;
+                padding: 0 15px;
+                text-align: center;
+                @media only screen and (max-width:768px)
+                {
+                    font-size: 10pt;
+                }
+                @media only screen and (max-width:768px)
+                {
+                    padding: 0 2.5px;
+                }
+            }
+            button
+            {
+                background-color: white;
+                border: none;
+            }
+        }
+        .clanarine
+        {
+            form
+            {
+                h5
+                {
+                    margin-top: 15px;
+                }
+                button
+                {
+                    background-color: @zuta;
+                    border:@siva 2px solid;
+                }
+            button:hover
+                {
+                    background-color: @tamnozuta;
+                    border-color: #d39e00;
+                }
+            }
+        }
+        .prijava
+        {
+            border: solid black 2px; 
+            padding: 30px 25px 40px; 
+            border-radius: 10px;
+        }
+        .adminpanel
+        {
+            table
+            {
+                text-align: center;
+                width: 100%;
+            }
+            thead{
+                margin: 10px;
+            }
+            td,th
+            {
+                font-size: 10.2pt;
+                padding: 2px 10px;
+            }
+            th
+            {
+                background-color: rgb(180, 180, 180);
+            }
+            input
+            {
+                width: 150px;
+                height: 22px;
+            }
+            .pretraga
+            {
+                float: right;
+            }
+        .izmena
+        {
+            input
+            {
+                width: 150px;
+                display: "inline-block"
+            }
+        }
+            
+        }
+        footer
+        {
+            padding: 15px;
+            background-color: black;
+            img
+            {
+                width: 32px;
+            }
+            a
+            {
+                margin-right: 15px;
+                @media only screen and (max-width:768px)
+                {
+                    margin-right: 5px;
+                }
+            }
+            .footerinfo p
+            {
+                color: white;
+                text-align: right;
+            }
+            hr
+            {
+                background-color: white;
+                height: 1px;
+                width: 100%;
+                margin: 0px;
+            }
+        }
+    }
+}

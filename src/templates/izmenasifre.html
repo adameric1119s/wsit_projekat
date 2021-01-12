@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<script src="https://kit.fontawesome.com/60d5fcee26.js" crossorigin="anonymous"></script>
+<script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/jquery.validate.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<title>Teretana A&M</title>
+<script> 
+  $(document).ready(function(){
+    $(function() {
+    $("form[name='izmenasifre']").validate({
+    rules: 
+    {
+      novasifra: {
+        minlength: 5
+      },
+    },
+    messages: {
+      novasifra: {
+        minlength: "Šifra mora imati minimum 5 karaktera"
+      },
+    },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
+});
+</script> 
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="../static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="../static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="../adminpanel" class="nav-link" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="../index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="../info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="../shop" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="../clanarine" class="nav-link">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="../prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="../profil/{{session['username']}}" class="nav-link active">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="../odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row mt-3 mb-3 izmena">
+    <div class="col-12 col-lg-3 mb-3">
+    <a style="color: orange; font-weight: bold;" href="profil/{{session['username']}}">Profil</a><br>
+    <a style="color: orange; font-weight: bold;" href="/izmena">Izmena profila</a><br><br>
+    </div>
+    <div class="col-12 col-lg-9"  style="padding: 0 3px;">
+      <form action="/izmenasifre" method="POST" enctype="multipart/form-data" name="izmenasifre">
+        <label for="trenutnasifra" style="width: 150px;">Trenutna sifra</label>
+        <input type="password" class="form-control" name="trenutnasifra" style="width: 250px; display: inline-block;"><br><br>
+        <label for="novasifra" style="margin-top: 25px; width: 150px;">Nova sifra</label>
+        <input type="password" class="form-control" name="novasifra" style="width: 250px; display: inline-block;"><br>
+        <label for="potvrdanove" style="margin-top: 25px; width: 150px;">Potvrda nove sifre</label>
+        <input type="password" class="form-control" name="potvrdanove" style="width: 250px; display: inline-block;"><br>
+        <input type="submit" class="btn btn-lg btn-primary btn-block mb-4 mt-4" value="Potvrda" style="width: 50%";>
+      </form>
+      {% for message in get_flashed_messages() %}
+        <p style="color: red;margin-left: 30px;">{{message}}</p>
+      {% endfor %}
+    </div>
+  </div>
+  <footer class="row mt-3 mb-3">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="../static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="../static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="../static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+</body>
+</html>

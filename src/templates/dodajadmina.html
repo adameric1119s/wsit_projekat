@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/less.css')}}">
+<link rel="icon" href="{{url_for('static',filename='slike/icon.png')}}">
+<script src="{{url_for('static',filename='js/jquery-3.5.1.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/jquery.validate.min.js')}}"></script>
+<title>Teretana A&M</title>
+<script> 
+  $(document).ready(function(){
+    $(function() {
+    $("form[name='dodajadmina']").validate({
+    rules: 
+    {
+      inputUsername: "required",
+      inputIme: "required",
+      inputPrezime: "required",
+      inputAdresa: "required",
+      inputEmail: {
+        required: true,
+        email: true
+      },
+      inputPassword: {
+        required: true,
+        minlength: 5
+      },
+      inputPasswordConfirm: {
+        required: true,
+        equalTo: "#sifra"
+      }
+    },
+    messages: {
+      inputUsername: "Molimo unesite Vaše željeno korisničko ime",
+      inputIme: "Molimo unesite Vaše ime",
+      inputPrezime: "Molimo unesite Vaše prezime",
+      inputAdresa: "Molimo unesite Vašu adresu",
+      inputPassword: {
+        required: "Molimo unesite Vašu željenu šifru",
+        minlength: "Šifra mora imati minimum 5 karaktera"
+      },
+      inputPasswordConfirm: {
+        required: "Molimo ponovo unesite Vašu šifru",
+        equalTo: "Šifre se ne poklapaju"
+      },
+      inputEmail: {
+        required: "Molimo unesite Vašu E-Mail adresu",
+        email: "Molimo unesite Vašu E-Mail adresu"
+      },
+    },
+    submitHandler: function(form) {
+      form.submit();
+    }
+  });
+});
+});
+</script>
+</head>
+<body>
+<div class="container">
+  <nav class="navbar navbar-expand-md">
+    <a href="index" class="navbar-brand"><img src="static/slike/LogoNew.png" alt="Logo" id="logo"></a>
+    {% if 'username' in session %}
+      <span style="color: white;font-size: 10pt;">Ulogovani ste kao {{session['username']}}</span>
+    {% endif %}
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarmenu" style="outline: none;">
+      <img src="static/slike/hamburger.png" alt="hamburger" id="hamburger">
+    </button>
+    <div class="collapse navbar-collapse" id="navbarmenu">
+      <ul class="navbar-nav ml-auto">
+        {% if session['tip'] == 'admin'%}
+        <li class="nav-item">
+          <a href="adminpanel" class="nav-link active" style="font-size: 10pt; line-height: 12px;">Admin <br> panel</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="index" class="nav-link">Početna</a>
+        </li>
+        <li class="nav-item">
+          <a href="info" class="nav-link">Info</a>
+        </li>
+        <li class="nav-item">
+          <a href="shop" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="clanarine" class="nav-link">Članarine</a>
+        </li>
+        {% if 'username' not in session %}
+        <li class="nav-item">
+          <a href="prijava" class="nav-link">Prijava</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="profil/{{session['username']}}" class="nav-link">Profil</a>
+        </li>
+        <li class="nav-item">
+          <a href="odjava" class="nav-link">Odjava</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <div class="row mb-3 mt-3">
+    <div class="col-12 col-lg-3 mb-3">
+      <a style="color: orange; font-weight: bold;" href="adminpanel">Korisnici/Clanarine</a><br>
+      <a style="color: orange; font-weight: bold;" href="porudzbenice">Porudzbenice</a><br>
+      <hr>
+      <a style="color: orange; font-weight: bold;" href="dodajproizvod">Dodavanje proizvoda</a><br>
+      <a style="color: blue; font-weight: bold; text-decoration: underline;" href="dodajadmina">Dodavanje admina</a>
+    </div>
+    <div class="col-12 col-lg-9 mt-3">
+        <h5 style="margin-bottom:20px;">Dodavanje novog admina</h5>
+        <form action="/dodajadmina" method="POST" enctype="multipart/form-data" name="dodajadmina">
+          <div class="row">
+          <div class="form-group col-12 col-md-6 col-lg-5">
+            <input type="text" name="inputUsername" class="form-control" placeholder="Korisničko ime">
+            <input type="email" name="inputEmail" class="form-control mt-2" placeholder="Email adresa">
+            <input type="text" name="inputIme" class="form-control mt-2" placeholder="Ime">
+          </div>
+          <div class="form-group col-12 col-md-6 col-lg-5">  
+            <input type="text" name="inputPrezime" class="form-control" placeholder="Prezime">
+            <input type="text" name="inputAdresa" class="form-control mt-2" placeholder="Adresa">
+            <input type="password" name="inputPassword" id="sifra" class="form-control mt-2" placeholder="Šifra" style="width: 48.9%; display: inline-block;">
+            <input type="password" name="inputPasswordConfirm" class="form-control mt-2" placeholder="Potvrda šifre" style="width: 49%; display: inline-block;">
+          </div>
+          <div class="form-group col-12 col-md-6 col-lg-5">
+            <button class="btn btn-lg btn-primary btn-block mb-4 mt-1" type="submit">Dodaj</button>
+          </div>
+          </div>
+        </form>
+		<div>
+            {% for message in get_flashed_messages() %}
+              <p style="color: red;margin-left: 30px;">{{message}}</p>
+			{% endfor %}
+        </div>
+      </div>
+  </div>
+  <footer class="row">
+    <div class="col-6" style="margin-top: 15px;">
+      <a href="#"><img src="static/slike/ig.png" alt="instagram"></a>
+      <a href="#"><img src="static/slike/fb.png" alt="fb"></a>
+      <a href="#"><img src="static/slike/tw.png" alt="twitter"></a>
+    </div>
+    <div class="col-6 footerinfo">
+      <p>Adam Erić <br> Miloš Vukadinović</p>
+    </div>
+    <hr>
+  </footer>
+</div>
+</body>
+</html>

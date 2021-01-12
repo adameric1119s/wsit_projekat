@@ -1,0 +1,15 @@
+{
+    "watchFolder": "src/static/less", 
+    
+    "outputFolder": "src/static/css",
+    
+    "mainFile": "less.less",
+    
+    "sourceMap": false,
+    
+    "less-args": "option1=1,option2=2",
+    
+    "runOnce": false,
+    
+    "enableJs": true
+}
